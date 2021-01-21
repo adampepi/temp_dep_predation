@@ -8,17 +8,17 @@ Tmax = 1000 # time horizon
 TimeStep = 1 # integration time step
 Time <- seq(0, Tmax, by = TimeStep)
 #initial
-A0 = 10
-P0 = 11
-J0 = 100
+A0 = 10 # initial adults
+P0 = 11 # initial predators
+J0 = 100 # initial juveniles
 Y0 <- c(A0,P0,J0)
 #parameters
-a =.1 
-c =.1 #
-m =.1 #predators live longer
-b = 2 #must be greater than 1
-g =.4 
-n =.3 
+a =.1 # attack rate (pred)
+c =.1 # conversion
+m =.1 # predator mortality (predators live longer)
+b = 2 # birth rate, must be greater than 1
+g =.4 # growth rate (juve)
+n =.3 # adult prey mortality
 parms <- c(a,c,m,b,g,n )
 predprey_equations  <- function(t, y, parms) {
   a=parms[1]; c=parms[2] ; m= parms[3]; b=parms[4]; g=parms[5]; n=parms[6]
