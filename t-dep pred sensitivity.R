@@ -161,14 +161,18 @@ rt1DD3
 rt2DD3<-tempresponse(ts,ToptJ=30,ToptP=25,Tsd=5,RmP=.1,RmJ=.4, parms=parms, ODE=predprey_equations_DD3)
 rt2DD3
 
-rt1DD<-tempresponse2(ts,ToptJ=27,ToptP=30,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms,ODE=predprey_equations_DD_JD)
+
+##Change pred and prey topt here
+rt1DD<-tempresponse2(ts,ToptJ=30,ToptP=30,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms,ODE=predprey_equations_DD_JD)
 rt1DD
-rt2DD<-tempresponse2(ts,ToptJ=30,ToptP=27,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+rt2DD<-tempresponse2(ts,ToptJ=30,ToptP=30,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
 rt2DD
 
+###Version with t-dep death rate
+
 par(mfrow=c(2,1))
-matplot(x=ts, y=rt1DD, type='l', xlab="Temp", ylab="density")
-matplot(x=ts, y=rt2DD, type='l', xlab="Temp", ylab="density")
+matplot(x=ts, y=rt1DD, type='l', xlab="Temp", ylab="density",main="Prey Topt=30, Pred Topt=30")
+matplot(x=ts, y=rt2DD, type='l', xlab="Temp", ylab="density",main="Prey Topt=30, Pred Topt=30")
 
 
 par(mfrow=c(3,2))
