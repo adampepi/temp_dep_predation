@@ -8,22 +8,22 @@ Tmax = 1000 # time horizon
 TimeStep = 1 # integration time step
 Time <- seq(0, Tmax, by = TimeStep)
 #initial
-A0 = 10
-P0 = 11
-J0 = 100
+A0 = 10 # initial adults
+P0 = 11 # initial predators
+J0 = 100 # initial juveniles
 Y0 <- c(A0,P0,J0)
 #parameters
-a =.1 
-c =.1 #
-m =.1 #predators live longer
-b = 2 #must be greater than 1
-g =.4 
-n =.3 
+a =.1 # attack rate (pred)
+c =.1 # conversion
+m =.1 # predator mortality (predators live longer)
+b = 2 # birth rate, must be greater than 1
+g =.4 # growth rate (juve)
+n =.3 # adult prey mortality
 o =.3 
-K=100
+K =100
 parms <- c(a,c,m,b,g,n,o,K )
 
-
+# predator-prey equations ####
 predprey_equations  <- function(t, y, parms) {
   a=parms[1]; c=parms[2] ; m= parms[3]; b=parms[4]; g=parms[5]; n=parms[6]
   A0 <- y[1]; P0 <- y[2]; J0 <- y[3]
@@ -66,14 +66,23 @@ par(las=1,bty="l")
 matplot(LV.out[,1],LV.out[,-1], type='l', xlab="time", ylab="density") 
 
 
-##Temperature response function
+##Temperature response function ####
 taylor<-function(temp,Rm=10,Topt=20,Tsd=1)Rm*exp(-0.5*((temp-Topt)/Tsd)^2)
 ts<-seq(20,40,0.1)
 gs<-taylor(ts,Topt = 31,Rm=0.1,Tsd=5)
 as<-taylor(ts,Topt = 31,Rm=0.1,Tsd=5)
 
+## Temperature response function skewed - Gaussian * Gompertz ####
+skew <- function(temp,Rm=10,Topt=20,rho,sigma)Rm*exp(-exp((rho*(temp-Topt))-6)-(sigma*((temp-Topt)^2)))
+ts<-seq(20,40,0.1)
+gs<-skew(ts,Topt = 31,Rm=0.1,rho=.0020,sigma=.50)
+as<-skew(ts,Topt = 31,Rm=0.1,rho=2,sigma=5)
+  
 
-##Temperature sensitivity analysis
+
+# Rm, R-max, is height of the curve's peak
+
+##Temperature sensitivity analysis ####
 tempresponse<-function(ts, ##sequence of temperatures
                        ToptJ,  ##topt for juveniles
                        ToptP,  ##topt for predators
