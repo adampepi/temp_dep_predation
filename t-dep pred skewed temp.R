@@ -75,10 +75,10 @@ as<-taylor(ts,Topt = 31,Rm=0.1,Tsd=5)
 ## Temperature response function skewed - Gaussian * Gompertz ####
 skew <- function(temp,Rm=10,Topt=20,rho,sigma)Rm*exp(-exp((rho*(temp-Topt))-6)-(sigma*((temp-Topt)^2)))
 ts<-seq(20,40,0.1)
-gs<-skew(ts,Topt = 31,Rm=0.1,rho=.0020,sigma=.50)
-as<-skew(ts,Topt = 31,Rm=0.1,rho=2,sigma=5)
-  
-
+gs<-skew(ts,Topt = 31,Rm=0.1,rho=0.9,sigma=0.01)
+#plot(gs)
+as<-skew(ts,Topt = 31,Rm=0.1,rho=0.9,sigma=0.01)
+#plot(as)
 
 # Rm, R-max, is height of the curve's peak
 
