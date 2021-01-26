@@ -80,21 +80,27 @@ gs<-skew(ts,Topt = 31,Rm=0.1,rho=0.9,sigma=0.01)
 as<-skew(ts,Topt = 31,Rm=0.1,rho=0.9,sigma=0.01)
 #plot(as)
 
+# sigma controls steepness of the left portion (?)
+# rho controls steepness of the right portion
+
 # Rm, R-max, is height of the curve's peak
 
 ##Temperature sensitivity analysis ####
 tempresponse<-function(ts, ##sequence of temperatures
                        ToptJ,  ##topt for juveniles
                        ToptP,  ##topt for predators
-                       Tsd=5,  ##thermal niche breadth
                        RmP=.1, ##max predation rate
                        RmJ=.4, ##max growth rate
+                       rhoJ=0.9, ##right steepness for juv growth
+                       rhoP=0.9, ##right steepness for pred attack
+                       sigmaJ=0.01, ##left steepness for juv growth
+                       sigmaP=0.01, ##left steepness for pred attack
                        parms=parms,
                        ODE=predprey_equations ##choose which model version to run
 )
 {
-  gs<-taylor(ts,Topt = ToptJ,Rm=RmJ,Tsd=Tsd)  ##values of G
-  as<-taylor(ts,Topt = ToptP,Rm=RmP,Tsd=Tsd)
+  gs<-skew(ts,Topt = ToptJ,Rm=RmJ,rho=rhoJ,sigma=sigmaJ)
+  as<-skew(ts,Topt = ToptP,Rm=RmP,rho=rhoP,sigma=sigmaP)
   
   js<-numeric(length(as))
   As<-numeric(length(as))
