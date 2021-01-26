@@ -75,9 +75,9 @@ as<-taylor(ts,Topt = 31,Rm=0.1,Tsd=5)
 ## Temperature response function skewed - Gaussian * Gompertz ####
 skew <- function(temp,Rm=10,Topt=20,rho,sigma)Rm*exp(-exp((rho*(temp-Topt))-6)-(sigma*((temp-Topt)^2)))
 ts<-seq(20,40,0.1)
-gs<-skew(ts,Topt = 31,Rm=0.1,rho=0.9,sigma=0.01)
+gs<-skew(ts,Topt = 31,Rm=0.1,rho=0.9,sigma=0.005)
 #plot(gs)
-as<-skew(ts,Topt = 31,Rm=0.1,rho=0.9,sigma=0.01)
+as<-skew(ts,Topt = 31,Rm=0.1,rho=0.9,sigma=0.005)
 #plot(as)
 
 # sigma controls steepness of the left portion (?)
@@ -93,8 +93,8 @@ tempresponse<-function(ts, ##sequence of temperatures
                        RmJ=.4, ##max growth rate
                        rhoJ=0.9, ##right steepness for juv growth
                        rhoP=0.9, ##right steepness for pred attack
-                       sigmaJ=0.01, ##left steepness for juv growth
-                       sigmaP=0.01, ##left steepness for pred attack
+                       sigmaJ=0.005, ##left steepness for juv growth
+                       sigmaP=0.005, ##left steepness for pred attack
                        parms=parms,
                        ODE=predprey_equations ##choose which model version to run
 )
@@ -125,7 +125,10 @@ plot(os)
 tempresponse2<-function(ts, ##sequence of temperatures
                         ToptJ,  ##topt for juveniles
                         ToptP,  ##topt for predators
-                        Tsd=5,  ##thermal niche breadth
+                        rhoJ=0.9, ##right steepness for juv growth
+                        rhoP=0.9, ##right steepness for pred attack
+                        sigmaJ=0.005, ##left steepness for juv growth
+                        sigmaP=0.005, ##left steepness for pred attack
                         RmP=.1, ##max predation rate
                         Rmn=.1, ##max (?) adult death rate
                         Rmm=.1, ##max (?) predator death rate
@@ -135,8 +138,8 @@ tempresponse2<-function(ts, ##sequence of temperatures
                         ODE=predprey_equations ##choose which model version to run
 )
 {
-  gs<-taylor(ts,Topt = ToptJ,Rm=RmJ,Tsd=Tsd)  ##values of G
-  as<-taylor(ts,Topt = ToptP,Rm=RmP,Tsd=Tsd)
+  gs<-skew(ts,Topt = ToptJ,Rm=RmJ,rho=rhoJ,sigma=sigmaJ) # only skewed growth rate and attack rate, could skew mortality too... (?)
+  as<-skew(ts,Topt = ToptP,Rm=RmP,rho=rhoP,sigma=sigmaP)
   ns<-taylor(ts,Topt = ToptJ,Rm=1-Rmn,Tsd=Tsd)
   ms<-taylor(ts,Topt = ToptP,Rm=1-Rmm,Tsd=Tsd)
   os<-taylor(ts,Topt = ToptJ,Rm=1-Rmn,Tsd=Tsd)
@@ -159,30 +162,30 @@ tempresponse2<-function(ts, ##sequence of temperatures
   return(cbind(js,As,ps))
 }
 ts<-seq(15,40,0.1)
-rt1<-tempresponse(ts,ToptJ=25,ToptP=30,Tsd=5,RmP=.1,RmJ=.4, parms=parms)
-rt1
-rt2<-tempresponse(ts,ToptJ=30,ToptP=25,Tsd=5,RmP=.1,RmJ=.4, parms=parms)
-rt2
+rt1<-tempresponse(ts,ToptJ=25,ToptP=30,rhoJ=0.9,rhoP=0.9,sigmaJ=0.005,sigmaP=0.005,RmP=.1,RmJ=.4, parms=parms)
+rt1 # I get a fatal error here
+rt2<-tempresponse(ts,ToptJ=30,ToptP=25,rhoJ=0.9,rhoP=0.9,sigmaJ=0.005,sigmaP=0.005,RmP=.1,RmJ=.4, parms=parms)
+rt2 # I get a fatal error here
 
 par(mfrow=c(2,1))
 matplot(x=ts, y=rt1, type='l', xlab="Temp", ylab="density")
 matplot(x=ts, y=rt2, type='l', xlab="Temp", ylab="density")
 
-rt1DD<-tempresponse(ts,ToptJ=25,ToptP=30,Tsd=5,RmP=.1,RmJ=.4, parms=parms,ODE=predprey_equations_DD)
+rt1DD<-tempresponse(ts,ToptJ=25,ToptP=30,rhoJ=0.9,rhoP=0.9,sigmaJ=0.005,sigmaP=0.005,RmP=.1,RmJ=.4, parms=parms,ODE=predprey_equations_DD)
 rt1DD
-rt2DD<-tempresponse(ts,ToptJ=30,ToptP=25,Tsd=5,RmP=.1,RmJ=.4, parms=parms, ODE=predprey_equations_DD)
+rt2DD<-tempresponse(ts,ToptJ=30,ToptP=25,rhoJ=0.9,rhoP=0.9,sigmaJ=0.005,sigmaP=0.005,RmP=.1,RmJ=.4, parms=parms, ODE=predprey_equations_DD)
 rt2DD
 
-rt1DD3<-tempresponse(ts,ToptJ=25,ToptP=30,Tsd=5,RmP=.1,RmJ=.4, parms=parms,ODE=predprey_equations_DD3)
+rt1DD3<-tempresponse(ts,ToptJ=25,ToptP=30,rhoJ=0.9,rhoP=0.9,sigmaJ=0.005,sigmaP=0.005,RmP=.1,RmJ=.4, parms=parms,ODE=predprey_equations_DD3)
 rt1DD3
-rt2DD3<-tempresponse(ts,ToptJ=30,ToptP=25,Tsd=5,RmP=.1,RmJ=.4, parms=parms, ODE=predprey_equations_DD3)
+rt2DD3<-tempresponse(ts,ToptJ=30,ToptP=25,rhoJ=0.9,rhoP=0.9,sigmaJ=0.005,sigmaP=0.005,RmP=.1,RmJ=.4, parms=parms, ODE=predprey_equations_DD3)
 rt2DD3
 
 
 ##Change pred and prey topt here
-rt1DD<-tempresponse2(ts,ToptJ=30,ToptP=30,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms,ODE=predprey_equations_DD_JD)
+rt1DD<-tempresponse2(ts,ToptJ=30,ToptP=30,rhoJ=0.9,rhoP=0.9,sigmaJ=0.005,sigmaP=0.005,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms,ODE=predprey_equations_DD_JD)
 rt1DD
-rt2DD<-tempresponse2(ts,ToptJ=30,ToptP=30,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+rt2DD<-tempresponse2(ts,ToptJ=30,ToptP=30,rhoJ=0.9,rhoP=0.9,sigmaJ=0.005,sigmaP=0.005,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
 rt2DD
 
 ###Version with t-dep death rate
@@ -200,3 +203,37 @@ matplot(x=ts, y=rt1DD, type='l', xlab="Temp", ylab="density",main='DD in births,
 matplot(x=ts, y=rt2DD, type='l', xlab="Temp", ylab="density",main='DD in births, prey higher Topt')
 matplot(x=ts, y=rt1DD3, type='l', xlab="Temp", ylab="density",main='DD in all, preds higher Topt')
 matplot(x=ts, y=rt2DD3, type='l', xlab="Temp", ylab="density",main='DD in all, prey higher Topt')
+
+
+
+
+# comparing difference in asymmetry with skewed temp dep ####
+
+rtp.0<-tempresponse2(ts,ToptJ=30,ToptP=30,rhoJ=0.9,rhoP=0.9,sigmaJ=0.005,sigmaP=0.005,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms,ODE=predprey_equations_DD_JD)
+rtp.0
+rtp.1<-tempresponse2(ts,ToptJ=30,ToptP=29,rhoJ=0.9,rhoP=0.9,sigmaJ=0.005,sigmaP=0.005,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+rtp.1
+rtp.3<-tempresponse2(ts,ToptJ=30,ToptP=27,rhoJ=0.9,rhoP=0.9,sigmaJ=0.005,sigmaP=0.005,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+rtp.3
+rtp.5<-tempresponse2(ts,ToptJ=30,ToptP=25,rhoJ=0.9,rhoP=0.9,sigmaJ=0.005,sigmaP=0.005,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+rtp.5
+
+rtj.0<-tempresponse2(ts,ToptJ=30,ToptP=30,rhoJ=0.9,rhoP=0.9,sigmaJ=0.005,sigmaP=0.005,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms,ODE=predprey_equations_DD_JD)
+rtj.0
+rtj.1<-tempresponse2(ts,ToptJ=29,ToptP=30,rhoJ=0.9,rhoP=0.9,sigmaJ=0.005,sigmaP=0.005,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+rtj.1
+rtj.3<-tempresponse2(ts,ToptJ=27,ToptP=30,rhoJ=0.9,rhoP=0.9,sigmaJ=0.005,sigmaP=0.005,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+rtj.3
+rtj.5<-tempresponse2(ts,ToptJ=25,ToptP=30,rhoJ=0.9,rhoP=0.9,sigmaJ=0.005,sigmaP=0.005,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+rtj.5
+
+
+par(mfcol=c(4,2))
+matplot(x=ts, y=rtp.0, type='l', xlab="Temp", ylab="density",main="Prey Topt=30, Pred Topt=30")
+matplot(x=ts, y=rtp.1, type='l', xlab="Temp", ylab="density",main="Prey Topt=30, Pred Topt=29")
+matplot(x=ts, y=rtp.3, type='l', xlab="Temp", ylab="density",main="Prey Topt=30, Pred Topt=27")
+matplot(x=ts, y=rtp.5, type='l', xlab="Temp", ylab="density",main="Prey Topt=30, Pred Topt=25")
+matplot(x=ts, y=rtj.0, type='l', xlab="Temp", ylab="density",main="Prey Topt=30, Pred Topt=30")
+matplot(x=ts, y=rtj.1, type='l', xlab="Temp", ylab="density",main="Prey Topt=29, Pred Topt=30")
+matplot(x=ts, y=rtj.3, type='l', xlab="Temp", ylab="density",main="Prey Topt=27, Pred Topt=30")
+matplot(x=ts, y=rtj.5, type='l', xlab="Temp", ylab="density",main="Prey Topt=25, Pred Topt=30")
