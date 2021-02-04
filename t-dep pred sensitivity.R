@@ -22,6 +22,21 @@ K=100
 parms <- c(a,c,m,b,g,n,o,K )
 
 
+#Empirical parameters  --- on a t= 1 day scale
+a =.013333 ## From field experiment, predation rate per ant per day
+c =.1 # Use base value, from generalised trophic conversion
+m =0.0027 # Predator lives for one year, 1/365
+b = 2.666 #From normal clutch size/adult life span (80/30)
+g =0.02  ## 50 days til invulnerable size at Topt 
+n =0.033 ### From life span of adults, 1/30
+o =0.003 ## From lab rearing -- death rate per day at Topt
+K=1000 ##much more realistic K
+parms2 <- c(a,c,m,b,g,n,o,K )
+
+
+
+
+
 predprey_equations  <- function(t, y, parms) {
   a=parms[1]; c=parms[2] ; m= parms[3]; b=parms[4]; g=parms[5]; n=parms[6]
   A0 <- y[1]; P0 <- y[2]; J0 <- y[3]
@@ -59,7 +74,7 @@ predprey_equations_DD_JD  <- function(t, y, parms) {
   return(list(c(dAdt,dPdt,dJdt)));
 }
 
-LV.out <- lsoda(Y0, Time,predprey_equations_DD,parms)
+LV.out <- lsoda(Y0, Time,predprey_equations_DD,parms2)
 par(las=1,bty="l")
 matplot(LV.out[,1],LV.out[,-1], type='l', xlab="time", ylab="density") 
 
@@ -75,9 +90,9 @@ as<-taylor(ts,Topt = 31,Rm=0.1,Tsd=5)
 tempresponse<-function(ts, ##sequence of temperatures
                        ToptJ,  ##topt for juveniles
                        ToptP,  ##topt for predators
-                       Tsd=5,  ##thermal niche breadth
-                       RmP=.1, ##max predation rate
-                       RmJ=.4, ##max growth rate
+                       Tsd=6.7,  ##thermal niche breadth
+                       RmP=.0133, ##max predation rate
+                       RmJ=.02, ##max growth rate
                        parms=parms,
                        ODE=predprey_equations ##choose which model version to run
                        )
@@ -141,6 +156,53 @@ tempresponse2<-function(ts, ##sequence of temperatures
   }
   return(cbind(js,As,ps))
 }
+
+###version using empirical values
+##Separate Tsds and mortality functions
+
+tempresponse3<-function(ts, ##sequence of temperatures
+                        ToptJg=23.42,  ##topt for juvenile
+                        ToptJo=17.66,  ##topt for juveniles
+                        ToptA=23.42,  ##topt for juveniles
+                        ToptP=23.83,  ##topt for predators
+                        TsdP=9.14,  ##thermal niche breadth
+                        Tsdg=6.7, 
+                        Tsdo=7.9,
+                        TsdA=7.9,
+                        RmP=0.0133, ##max predation rate
+                        Rmn=0.033, ##min adult death rate
+                        Rmm=0.0027, ##min predator death rate
+                        Rmo=0.003, ##min  juvenile death rate
+                        RmJ=0.02, ##max growth rate
+                        parms=parms2,
+                        ODE=predprey_equations_DD_JD ##choose which model version to run
+)
+{
+  gs<-taylor(ts,Topt = ToptJg,Rm=RmJ,Tsd=Tsdg)  ##values of G
+  as<-taylor(ts,Topt = ToptP,Rm=RmP,Tsd=TsdP)
+  ns<-taylor(ts,Topt = ToptA,Rm=1-Rmn,Tsd=TsdA)
+  ms<-taylor(ts,Topt = ToptP,Rm=1-Rmm,Tsd=TsdP)
+  os<-taylor(ts,Topt = ToptJo,Rm=1-Rmo,Tsd=Tsdo)
+  ns<-1-ns
+  ms<-1-ms
+  os<-1-os
+  
+  js<-numeric(length(as))
+  As<-numeric(length(as))
+  ps<-numeric(length(as))
+  
+  for(i in 1:length(as)){
+    
+    parms1 <- c(a=as[i],c=parms[2],m=ms[i],b=parms[4],g=gs[i],n=ns[i],o=os[i],K=parms[8] )
+    rp<-as.data.frame(steady(y=Y0,time=c(0,1e5),func=ODE,parms=parms1,method='runsteady')) #steady function from rootsolve package gets steady state
+    As[i]<-rp[1,1]
+    ps[i]<-rp[2,1]
+    js[i]<-rp[3,1]
+  }
+  return(cbind(As,ps,js))
+}
+
+
 ts<-seq(15,40,0.1)
 rt1<-tempresponse(ts,ToptJ=25,ToptP=30,Tsd=5,RmP=.1,RmJ=.4, parms=parms)
 rt1
@@ -173,6 +235,27 @@ rt2DD
 par(mfrow=c(2,1))
 matplot(x=ts, y=rt1DD, type='l', xlab="Temp", ylab="density",main="Prey Topt=30, Pred Topt=30")
 matplot(x=ts, y=rt2DD, type='l', xlab="Temp", ylab="density",main="Prey Topt=30, Pred Topt=30")
+
+
+##Parameterized versions
+
+ts<-seq(15,30,0.1)
+rt1DD<-tempresponse3(ts=ts)
+rt1DD
+
+max(rt1DD[,3])
+
+
+###Version with t-dep death rate
+
+par(mfrow=c(1,1))
+matplot(x=ts, y=rt1DD+1, type='l', xlab="Temp", ylab="density",log='y')
+matplot(x=ts, y=rt1DD+1, type='l', xlab="Temp", ylab="density")
+
+#I reorganized this
+
+matplot(x=ts, y=rt2DD, type='l', xlab="Temp", ylab="density",main="Prey Topt=30, Pred Topt=30")
+
 
 
 par(mfrow=c(3,2))
