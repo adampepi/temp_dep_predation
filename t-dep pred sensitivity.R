@@ -170,7 +170,7 @@ tempresponse3<-function(ts, ##sequence of temperatures
                         Tsdo=7.9,
                         TsdA=7.9,
                         RmP=0.0133, ##max predation rate
-                        Rmn=0.033, ##min adult death rate
+                        Rmn=0.005, ##min adult death rate
                         Rmm=0.0027, ##min predator death rate
                         Rmo=0.003, ##min  juvenile death rate
                         RmJ=0.02, ##max growth rate
