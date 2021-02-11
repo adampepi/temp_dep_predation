@@ -251,21 +251,27 @@ predp3<-tempresponse2(ts,ToptJ=25,ToptP=28,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm
 predp4<-tempresponse2(ts,ToptJ=25,ToptP=29,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
 predp5<-tempresponse2(ts,ToptJ=25,ToptP=30,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
 
-diff0<-predp.0-predp.0
+
+###Could replace predp.0 with nopred_reponse here to compare with no predator
+##equilibrium.  
+
+
+str(predp.0)
+diff0<-predp.0[,1:3]-predp.0[,1:3]
 matplot(diff0,type="l",x=ts)
-diff.25<-predp.25-predp.0
+diff.25<-predp.25[,1:3]-predp.0[,1:3]
 matplot(diff.25,type="l",x=ts)
-diff.5<-predp.5-predp.0
+diff.5<-predp.5[,1:3]-predp.0[,1:3]
 matplot(diff.5,type="l",x=ts)
-diff1<-predp1-predp.0
+diff1<-predp1[,1:3]-predp.0[,1:3]
 matplot(diff1,type="l",x=ts)
-diff2<-predp2-predp.0
+diff2<-predp2[,1:3]-predp.0[,1:3]
 matplot(diff2,type="l",x=ts)
-diff3<-predp3-predp.0
+diff3<-predp3[,1:3]-predp.0[,1:3]
 matplot(diff3,type="l",x=ts)
-diff4<-predp4-predp.0
+diff4<-predp4[,1:3]-predp.0[,1:3]
 matplot(diff4,type="l",x=ts)
-diff5<-predp5-predp.0
+diff5<-predp5[,1:3]-predp.0[,1:3]
 matplot(diff5,type="l",x=ts)
 
 
