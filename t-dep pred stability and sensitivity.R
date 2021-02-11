@@ -37,7 +37,7 @@ K=1000 ##much more realistic K
 parms2 <- c(a,c,m,b,g,n,o,K )
 
 
-predprey_equations_DD_JD  <- function(t, y, parms) {
+predprey_equations_DD_JD  <- function(t, y, parms2) {
   a=parms[1]; c=parms[2] ; m= parms[3]; b=parms[4]; g=parms[5]; n=parms[6];o=parms[7]; K=parms[8]
   A0 <- y[1]; P0 <- y[2]; J0 <- y[3]
   dAdt <- g*J0 - n*A0            #adult ode
@@ -46,7 +46,7 @@ predprey_equations_DD_JD  <- function(t, y, parms) {
   return(list(c(dAdt,dPdt,dJdt)));
 }
 
-LV.out <- lsoda(Y0, Time,predprey_equations_DD,parms2)
+LV.out <- lsoda(Y0, Time,predprey_equations_DD,parms)
 par(las=1,bty="l")
 matplot(LV.out[,1],LV.out[,-1], type='l', xlab="time", ylab="density") 
 
@@ -58,13 +58,15 @@ ts<-seq(20,40,0.1)
 ###Stability analysis
 
 
-
+eigenv=F
+eigenv
 stability<-function(Pbar=Pbar,
                     Abar=Abar,
                     Jbar=Jbar,
-                    parms=parms
-                    
-){
+                    parms=parms,
+                    eigenv=FALSE
+                    )
+  {
   a=parms[1]; c=parms[2] ; m= parms[3]; b=parms[4]; g=parms[5]; n=parms[6];o=parms[7]; K=parms[8]
   dFdP=c*a-m
   dFdA=0
@@ -78,13 +80,17 @@ stability<-function(Pbar=Pbar,
   
   m1<-matrix(data=c(dFdP,dFdA,dFdJ,dGdP,dGdA,dGdJ,dHdP,dHdA,dHdJ),nrow=3,ncol=3)
   LE<-eigen(m1)$values[1]
-
+  if (eigenv==TRUE){print(LE)} 
   if (Re(LE)<0){
   return("stable")
   } 
   else {return("unstable")
   }
+  
+  
 }
+
+stability(Abar=16.33333,Pbar=16.44444,Jbar=10,parms=parms,eigenv=TRUE)
 
 tempresponse2<-function(ts, ##sequence of temperatures
                        ToptJ,  ##topt for juveniles
