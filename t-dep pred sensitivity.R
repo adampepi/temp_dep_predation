@@ -1,5 +1,7 @@
 library(deSolve)
 library(rootSolve)
+library(reshape2)
+library(ggplot2)
 
 #time vector
 Tmax = 1000 # time horizon  
@@ -240,11 +242,14 @@ matplot(x=ts, y=rt2DD, type='l', xlab="Temp", ylab="density",main="Prey Topt=30,
 ##Parameterized versions
 
 ts<-seq(15,30,0.1)
-rt1DD<-tempresponse3(ts=ts)
-rt1DD
+avirginalis<-tempresponse3(ts=ts)
+avirginalis1<-as.data.frame(avirginalis)
+avirginalis1$Temperature<-ts
 
-max(rt1DD[,3])
+avirginalis2<-melt(avirginalis1,id.vars=c("Temperature"))
+str(avirginalis2)
 
+ggplot(avirginalis2,aes(x=Temperature,y=value+1,color=variable))+geom_line()+scale_y_log10()+theme_classic()+ylab('Density + 1')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))
 
 ###Version with t-dep death rate
 
