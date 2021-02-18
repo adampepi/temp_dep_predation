@@ -4,6 +4,7 @@ library(reshape2)
 library(ggplot2)
 library(ggstance)
 library(cowplot)
+library(tidyverse)
 #time vector
 Tmax = 1000 # time horizon  
 TimeStep = 1 # integration time step
@@ -37,7 +38,7 @@ K=1000 ##much more realistic K
 parms2 <- c(a,c,m,b,g,n,o,K )
 
 
-predprey_equations_DD_JD  <- function(t, y, parms2) {
+predprey_equations_DD_JD  <- function(t, y, parms) {
   a=parms[1]; c=parms[2] ; m= parms[3]; b=parms[4]; g=parms[5]; n=parms[6];o=parms[7]; K=parms[8]
   A0 <- y[1]; P0 <- y[2]; J0 <- y[3]
   dAdt <- g*J0 - n*A0            #adult ode
@@ -46,7 +47,8 @@ predprey_equations_DD_JD  <- function(t, y, parms2) {
   return(list(c(dAdt,dPdt,dJdt)));
 }
 
-LV.out <- lsoda(Y0, Time,predprey_equations_DD,parms)
+
+LV.out <- lsoda(Y0, Time,predprey_equations_DD_JD,parms)
 par(las=1,bty="l")
 matplot(LV.out[,1],LV.out[,-1], type='l', xlab="time", ylab="density") 
 
@@ -54,7 +56,8 @@ matplot(LV.out[,1],LV.out[,-1], type='l', xlab="time", ylab="density")
 ##Temperature response function
 taylor<-function(temp,Rm=10,Topt=20,Tsd=1)Rm*exp(-0.5*((temp-Topt)/Tsd)^2)
 ts<-seq(20,40,0.1)
-
+gs<-taylor(ts,Topt = 25,Rm=.4,Tsd=5)
+plot(gs)
 ###Stability analysis
 
 
@@ -65,8 +68,8 @@ stability<-function(Pbar=Pbar,
                     Jbar=Jbar,
                     parms=parms,
                     eigenv=FALSE
-                    )
-  {
+)
+{
   a=parms[1]; c=parms[2] ; m= parms[3]; b=parms[4]; g=parms[5]; n=parms[6];o=parms[7]; K=parms[8]
   dFdP=c*a-m
   dFdA=0
@@ -82,7 +85,7 @@ stability<-function(Pbar=Pbar,
   LE<-eigen(m1)$values[1]
   if (eigenv==TRUE){print(LE)} 
   if (Re(LE)<0){
-  return("stable")
+    return("stable")
   } 
   else {return("unstable")
   }
@@ -93,16 +96,16 @@ stability<-function(Pbar=Pbar,
 stability(Abar=16.33333,Pbar=16.44444,Jbar=10,parms=parms,eigenv=TRUE)
 
 tempresponse2<-function(ts, ##sequence of temperatures
-                       ToptJ,  ##topt for juveniles
-                       ToptP,  ##topt for predators
-                       Tsd=5,  ##thermal niche breadth
-                       RmP=.1, ##max predation rate
-                       Rmn=.1, ##max (?) adult death rate
-                       Rmm=.1, ##max (?) predator death rate
-                       Rmo=.1, ##max (?) juvenile rate
-                       RmJ=.4, ##max growth rate
-                       parms=parms,
-                       ODE=predprey_equations ##choose which model version to run
+                        ToptJ,  ##topt for juveniles
+                        ToptP,  ##topt for predators
+                        Tsd=5,  ##thermal niche breadth
+                        RmP=.1, ##max predation rate
+                        Rmn=.1, ##max (?) adult death rate
+                        Rmm=.1, ##max (?) predator death rate
+                        Rmo=.1, ##max (?) juvenile rate
+                        RmJ=.4, ##max growth rate
+                        parms=parms,
+                        ODE=predprey_equations ##choose which model version to run
 )
 {
   gs<-taylor(ts,Topt = ToptJ,Rm=RmJ,Tsd=Tsd)  ##values of G
@@ -114,10 +117,10 @@ tempresponse2<-function(ts, ##sequence of temperatures
   ms<-1-ms
   os<-1-os
   
-  Js<-numeric(length(as))
-  As<-numeric(length(as))
-  Ps<-numeric(length(as))
-  ss<-numeric(length(as)) 
+  Js<-numeric(length(ts))
+  As<-numeric(length(ts))
+  Ps<-numeric(length(ts))
+  ss<-numeric(length(ts)) 
   
   for(i in 1:length(as)){
     
@@ -183,18 +186,16 @@ tempresponse3<-function(ts, ##sequence of temperatures
 
 ts<-seq(15,35,0.1)
 ##Change pred and prey topt here
-same<-tempresponse2(ts,ToptJ=25,ToptP=25,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms,ODE=predprey_equations_DD_JD)
+same<-tempresponse2(ts,ToptJ=25,ToptP=25,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms,ODE=predprey_equations_DD)
 
 same
 
 str(same)
 
 preym1<-tempresponse2(ts,ToptJ=25,ToptP=23,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
-
+preym1
 preyp1<-tempresponse2(ts,ToptJ=25,ToptP=27,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
-###Base model plots
-prey
-
+###Base model plot
 preym12<-melt(preym1,id.vars=c("Temperature","stability"))
 str(preym12)
 preym1plot<-ggplot(preym12,aes(x=Temperature,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density ')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+xlim(18,32)+ylim(-.1,42)+geom_vline(xintercept=25,lty=2)+geom_vline(xintercept=23,lty=2)+
@@ -211,11 +212,11 @@ preyp1plot<-ggplot(preyp12,aes(x=Temperature,y=value,color=variable,lty='stabili
 preyp1plot
 
 
-same2<-melt(same,id.vars=c("Temperature","Stability"))
+same2<-melt(same,id.vars=c("Temperature","stability"))
 str(same2)
 sameplot<-ggplot(same2,aes(x=Temperature,y=value,color=variable))+geom_line()+theme_classic()+ylab('Density ')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+xlim(18,32)+xlim(18,32)+ylim(-.1,42)+ylim(-.1,42)+geom_vline(xintercept=25,lty=2)+
   annotate('text',x=26.5,y=41,label=expression(paste(T[opt],' ',Predators,' & ' ,Prey)),size=2.5)+scale_linetype(guide=F)
-  
+
 sameplot
 
 plot_grid(sameplot,preym1plot,preyp1plot,nrow=3,labels=c('A','B','C'))

@@ -140,7 +140,7 @@ tempresponse3<-function(ts, ##sequence of temperatures
 ts<-seq(15,35,0.1)
 ##Change pred and prey topt here
 same<-tempresponse2(ts,ToptJ=25,ToptP=25,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms,ODE=predprey_equations_DD_JD)
-
+same
 preym1<-tempresponse2(ts,ToptJ=25,ToptP=23,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
 
 preyp1<-tempresponse2(ts,ToptJ=25,ToptP=27,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
