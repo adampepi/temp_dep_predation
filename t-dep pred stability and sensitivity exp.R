@@ -240,25 +240,23 @@ ggplot(avirginalis2,aes(x=Temperature,y=value,color=variable))+geom_line()+theme
 
 Y0
 Y0[2]<-0
-nopred_reponse<-tempresponse2(ts,ToptJ=25,ToptP=25,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms,ODE=predprey_equations_DD_JD)
+nopred_reponse<-tempresponse2(ts,ToptJ=25,ToptP=25,TsdP=5,TsdA=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms,ODE=predprey_equations_DD_JD)
 
 Y0
 Y0[2]<-11
 
-diff1<-preym1-nopred_reponse
-matplot(diff1,type="l",x=ts)
-diff2<-preyp1-nopred_reponse
-matplot(diff2,type="l",x=ts)
+
 
 ###Show differences by asymmetry level
-predp.0<-tempresponse2(ts,ToptJ=25,ToptP=25,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
-predp.25<-tempresponse2(ts,ToptJ=25,ToptP=25.25,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
-predp.5<-tempresponse2(ts,ToptJ=25,ToptP=25.5,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
-predp1<-tempresponse2(ts,ToptJ=25,ToptP=26,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
-predp2<-tempresponse2(ts,ToptJ=25,ToptP=27,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
-predp3<-tempresponse2(ts,ToptJ=25,ToptP=28,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
-predp4<-tempresponse2(ts,ToptJ=25,ToptP=29,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
-predp5<-tempresponse2(ts,ToptJ=25,ToptP=30,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+predp.0<-tempresponse2(ts,ToptJ=25,ToptP=25,TsdA=5,TsdP=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+
+predp.25<-tempresponse2(ts,ToptJ=25,ToptP=25.25,TsdA=5,TsdP=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+predp.5<-tempresponse2(ts,ToptJ=25,ToptP=25.5,TsdA=5,TsdP=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+predp1<-tempresponse2(ts,ToptJ=25,ToptP=26,TsdA=5,TsdP=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+predp2<-tempresponse2(ts,ToptJ=25,ToptP=27,TsdA=5,TsdP=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+predp3<-tempresponse2(ts,ToptJ=25,ToptP=28,TsdA=5,TsdP=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+predp4<-tempresponse2(ts,ToptJ=25,ToptP=29,TsdA=5,TsdP=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+predp5<-tempresponse2(ts,ToptJ=25,ToptP=30,TsdA=5,TsdP=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
 
 
 ###Could replace predp.0 with nopred_reponse here to compare with no predator
@@ -266,21 +264,21 @@ predp5<-tempresponse2(ts,ToptJ=25,ToptP=30,Tsd=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm
 
 
 str(predp.0)
-diff0<-predp.0[,1:3]-predp.0[,1:3]
+diff0<-predp.0[,1:3]-nopred_reponse[,1:3]
 matplot(diff0,type="l",x=ts)
-diff.25<-predp.25[,1:3]-predp.0[,1:3]
+diff.25<-predp.25[,1:3]-nopred_reponse[,1:3]
 matplot(diff.25,type="l",x=ts)
-diff.5<-predp.5[,1:3]-predp.0[,1:3]
+diff.5<-predp.5[,1:3]-nopred_reponse[,1:3]
 matplot(diff.5,type="l",x=ts)
-diff1<-predp1[,1:3]-predp.0[,1:3]
+diff1<-predp1[,1:3]-nopred_reponse[,1:3]
 matplot(diff1,type="l",x=ts)
-diff2<-predp2[,1:3]-predp.0[,1:3]
+diff2<-predp2[,1:3]-nopred_reponse[,1:3]
 matplot(diff2,type="l",x=ts)
-diff3<-predp3[,1:3]-predp.0[,1:3]
+diff3<-predp3[,1:3]-nopred_reponse[,1:3]
 matplot(diff3,type="l",x=ts)
-diff4<-predp4[,1:3]-predp.0[,1:3]
+diff4<-predp4[,1:3]-nopred_reponse[,1:3]
 matplot(diff4,type="l",x=ts)
-diff5<-predp5[,1:3]-predp.0[,1:3]
+diff5<-predp5[,1:3]-nopred_reponse[,1:3]
 matplot(diff5,type="l",x=ts)
 
 
@@ -398,12 +396,12 @@ s2<-sensitivity(parameter=2,from=0.01,to=2.5,by=0.01,ODE=predprey_equations_DD_J
 
 cplot<-ggplot(s2,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('c (Conversion rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"),guide=F)+scale_linetype(name="Stability",guide=F)+geom_hline(yintercept=1,lty=2)+scale_y_log10()
 cplot
-s3<-sensitivity(parameter=3,from=0,to=5,by=0.01,ODE=predprey_equations_DD_JD,parms1=parms)
+s3<-sensitivity(parameter=3,from=0,to=1,by=0.01,ODE=predprey_equations_DD_JD,parms1=parms)
 s3[s3$value<0,]
-mplot<-ggplot(s3,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('m (Predator mortality rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"),guide=F)+scale_linetype(name="Stability",guide=F)+geom_hline(yintercept=0,lty=2) +annotate("rect", xmin = 3.19, xmax = Inf, ymin = -Inf, ymax=Inf,alpha = .2)
+mplot<-ggplot(s3,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('m (Predator mortality rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"),guide=F)+scale_linetype(name="Stability",guide=F)+geom_hline(yintercept=0,lty=2) 
 mplot
 
-+scale_y_log10()
+
 
 s4<-sensitivity(parameter=4,from=0,to=2.5,by=0.01,ODE=predprey_equations_DD_JD,parms1=parms)
 
@@ -413,7 +411,7 @@ bplot
 
 s4[s4$value<0,]
 ##g
-s5<-sensitivity(parameter=5,from=0,to=1,by=0.01,ODE=predprey_equations_DD_JD,parms1=parms)
+s5<-sensitivity(parameter=5,from=0,to=2,by=0.01,ODE=predprey_equations_DD_JD,parms1=parms)
 
 gplot<-ggplot(s5,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('g (Juvenile growth rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+scale_linetype(name="Stability",guide=F)+geom_hline(yintercept=0,lty=2) +annotate("rect", xmin = -Inf, xmax = 0.05, ymin = -Inf, ymax=Inf,alpha = .2)
 gplot
@@ -428,7 +426,7 @@ nplot
 s6[s6$value<0,]
 
 #o
-s7<-sensitivity(parameter=7,from=0.01,to=2.1,by=0.01,ODE=predprey_equations_DD_JD,parms1=parms)
+s7<-sensitivity(parameter=7,from=0.01,to=1,by=0.01,ODE=predprey_equations_DD_JD,parms1=parms)
 
 oplot<-ggplot(s7,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('o (Juvenile death rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"),guide=F)+scale_linetype(name="Stability",guide=F) +geom_hline(yintercept=0,lty=2)
 oplot
@@ -535,7 +533,7 @@ plot1
 sc<-sensitivity2(ts=ts,
                    parameter=2,
                    from=0.01,
-                   to=.9,
+                   to=1,
                    by=0.01,
                    parms=parms3,
                    ODE=predprey_equations_DD_JD
@@ -559,20 +557,22 @@ plot3
 
 sb<-sensitivity2(ts=ts,
                  parameter=4,
-                 from=.8,
+                 from=0.5,
                  to=3,
-                 by=0.01,
+                 by=0.1,
                  parms=parms3,
                  ODE=predprey_equations_DD_JD
                  
 )
 plot4<-ggplot(sb,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab('b')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)
 plot4
+sb[sb$value<0.01&sb$value>-0.01,]
+
 
 sg<-sensitivity2(ts=ts,
                  parameter=5,
                  from=0.1,
-                 to=1,
+                 to=5,
                  by=0.01,
                  parms=parms3,
                  ODE=predprey_equations_DD_JD
@@ -605,20 +605,20 @@ plot7<-ggplot(sRmo,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_c
 plot7
 sK<-sensitivity2(ts=ts,
                    parameter=8,
-                   from=1,
+                   from=50,
                    to=200,
                    by=1,
                    parms=parms3,
                    ODE=predprey_equations_DD_JD
                    
 )
-plot8<-ggplot(sK,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab('K')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)+annotate("rect", xmin = -Inf, xmax = 58, ymin = -Inf, ymax=Inf,alpha = .2)
+plot8<-ggplot(sK,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab('K')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)
 plot8
 sK[sK$value<0.01&sK$value>-0.01,]
 
 stsdA<-sensitivity2(ts=ts,
                     parameter=9,
-                    from=3,
+                    from=1,
                     to=15,
                     by=0.1,
                     parms=parms3,
@@ -629,7 +629,7 @@ plot9<-ggplot(stsdA,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_
 plot9
 stsdP<-sensitivity2(ts=ts,
                     parameter=10,
-                    from=3,
+                    from=1,
                     to=15,
                     by=0.1,
                     parms=parms3,
