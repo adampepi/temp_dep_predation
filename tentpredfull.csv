@@ -1,0 +1,154 @@
+site,treatment,formica,present ,missing,warming.t,trial,formica.summed,p.surv,id
+draw,warming,30,0,3,3.62,Trial 1,48,0,1
+draw,warming,30,1,2,3.62,Trial 1,48,0.3333333333,2
+draw,warming,30,2,1,3.62,Trial 1,48,0.6666666667,3
+draw,control,18,3,0,3.62,Trial 1,48,1,4
+draw,control,18,3,0,3.62,Trial 1,48,1,5
+draw,control,18,0,3,3.62,Trial 1,48,0,6
+draw,control,18,1,1,3.62,Trial 1,48,0.5,7
+s curve,warming,1,2,1,-1.1,Trial 1,1,0.6666666667,8
+s curve,warming,1,3,0,-1.1,Trial 1,1,1,9
+s curve,warming,1,3,0,-1.1,Trial 1,1,1,10
+s curve,warming,1,3,0,-1.1,Trial 1,1,1,11
+s curve,control,0,1,2,-1.1,Trial 1,1,0.3333333333,12
+s curve,control,0,2,1,-1.1,Trial 1,1,0.6666666667,13
+s curve,control,0,3,0,-1.1,Trial 1,1,1,14
+s curve,control,0,3,0,-1.1,Trial 1,1,1,15
+entrance,warming,0,3,0,3.24,Trial 1,7,1,16
+entrance,warming,0,2,1,3.24,Trial 1,7,0.6666666667,17
+entrance,warming,0,3,0,3.24,Trial 1,7,1,18
+entrance,warming,0,3,0,3.24,Trial 1,7,1,19
+entrance,control,7,3,0,3.24,Trial 1,7,1,20
+entrance,control,7,3,0,3.24,Trial 1,7,1,21
+entrance,control,7,1,2,3.24,Trial 1,7,0.3333333333,22
+entrance,control,7,1,2,3.24,Trial 1,7,0.3333333333,23
+hall???s dune,warming,40,3,0,2.58,Trial 1,72,1,24
+hall???s dune,warming,40,0,3,2.58,Trial 1,72,0,25
+hall???s dune,warming,40,1,2,2.58,Trial 1,72,0.3333333333,26
+hall???s dune,warming,40,0,3,2.58,Trial 1,72,0,27
+hall???s dune,control,32,3,0,2.58,Trial 1,72,1,28
+hall???s dune,control,32,3,0,2.58,Trial 1,72,1,29
+hall???s dune,control,32,3,0,2.58,Trial 1,72,1,30
+dorm marsh,warming,3,3,0,1.25,Trial 1,5,1,31
+dorm marsh,warming,3,3,0,1.25,Trial 1,5,1,32
+dorm marsh,warming,3,0,3,1.25,Trial 1,5,0,33
+dorm marsh,warming,3,2,1,1.25,Trial 1,5,0.6666666667,34
+dorm marsh,control,2,3,0,1.25,Trial 1,5,1,35
+dorm marsh,control,2,3,0,1.25,Trial 1,5,1,36
+dorm marsh,control,2,3,0,1.25,Trial 1,5,1,37
+dorm marsh,control,2,3,0,1.25,Trial 1,5,1,38
+mussel pt,warming,10,2,1,0.43,Trial 1,12,0.6666666667,39
+mussel pt,warming,10,3,0,1.43,Trial 1,12,1,40
+mussel pt,warming,10,2,1,2.43,Trial 1,12,0.6666666667,41
+mussel pt,warming,10,0,3,3.43,Trial 1,12,0,42
+mussel pt,control,2,2,1,4.43,Trial 1,12,0.6666666667,43
+mussel pt,control,2,3,0,5.43,Trial 1,12,1,44
+mussel pt,control,2,3,0,6.43,Trial 1,12,1,45
+mussel pt,control,2,3,0,7.43,Trial 1,12,1,46
+artemisia,warming,0,3,0,-0.1,Trial 1,5,1,47
+artemisia,warming,0,1,2,-0.1,Trial 1,5,0.3333333333,48
+artemisia,warming,0,2,1,-0.1,Trial 1,5,0.6666666667,49
+artemisia,warming,0,2,1,-0.1,Trial 1,5,0.6666666667,50
+artemisia,control,5,3,0,-0.1,Trial 1,5,1,51
+artemisia,control,5,3,0,-0.1,Trial 1,5,1,52
+artemisia,control,5,3,0,-0.1,Trial 1,5,1,53
+john???s north dune,warming,0,2,1,0.98,Trial 1,6,0.6666666667,54
+john???s north dune,warming,0,3,0,0.98,Trial 1,6,1,55
+john???s north dune,warming,0,3,0,0.98,Trial 1,6,1,56
+john???s north dune,warming,0,2,1,0.98,Trial 1,6,0.6666666667,57
+john???s north dune,control,6,3,0,0.98,Trial 1,6,1,58
+john???s north dune,control,6,2,1,0.98,Trial 1,6,0.6666666667,59
+john???s north dune,control,6,2,1,0.98,Trial 1,6,0.6666666667,60
+john???s north dune,control,6,3,0,0.98,Trial 1,6,1,61
+across from lab,warming,0,3,0,1.02,Trial 1,0,1,62
+across from lab,warming,0,3,0,1.02,Trial 1,0,1,63
+across from lab,warming,0,3,0,1.02,Trial 1,0,1,64
+across from lab,warming,0,3,0,1.02,Trial 1,0,1,65
+across from lab,control,0,2,1,1.02,Trial 1,0,0.6666666667,66
+across from lab,control,0,3,0,1.02,Trial 1,0,1,67
+across from lab,control,0,3,0,1.02,Trial 1,0,1,68
+across from lab,control,0,3,0,1.02,Trial 1,0,1,69
+hemlock,warming,0,3,0,-4.73,Trial 1,1,1,70
+hemlock,warming,0,3,0,-4.73,Trial 1,1,1,71
+hemlock,warming,0,3,0,-4.73,Trial 1,1,1,72
+hemlock,warming,0,3,0,-4.73,Trial 1,1,1,73
+hemlock,control,1,3,0,-4.73,Trial 1,1,1,74
+hemlock,control,1,1,2,-4.73,Trial 1,1,0.3333333333,75
+hemlock,control,1,2,1,-4.73,Trial 1,1,0.6666666667,76
+hemlock,control,1,3,0,-4.73,Trial 1,1,1,77
+draw,warming,30,0,3,0.45,Trial 2,48,0,78
+draw,warming,30,0,3,0.45,Trial 2,48,0,79
+draw,warming,30,0,3,0.45,Trial 2,48,0,80
+draw,warming,30,0,3,0.45,Trial 2,48,0,81
+draw,control,18,0,3,0.45,Trial 2,48,0,82
+draw,control,18,0,3,0.45,Trial 2,48,0,83
+draw,control,18,0,3,0.45,Trial 2,48,0,84
+draw,control,18,3,3,0.45,Trial 2,48,0.5,85
+s curve,warming,1,2,1,3.13,Trial 2,1,0.6666666667,86
+s curve,warming,1,1,2,3.13,Trial 2,1,0.3333333333,87
+s curve,warming,1,3,0,3.13,Trial 2,1,1,88
+s curve,warming,1,2,1,3.13,Trial 2,1,0.6666666667,89
+s curve,control,0,0,3,3.13,Trial 2,1,0,90
+s curve,control,0,0,3,3.13,Trial 2,1,0,91
+s curve,control,0,1,2,3.13,Trial 2,1,0.3333333333,92
+s curve,control,0,2,1,3.13,Trial 2,1,0.6666666667,93
+entrance,warming,0,3,0,0.21,Trial 2,7,1,94
+entrance,warming,0,3,0,0.21,Trial 2,7,1,95
+entrance,warming,0,3,0,0.21,Trial 2,7,1,96
+entrance,warming,0,3,0,0.21,Trial 2,7,1,97
+entrance,control,7,3,0,0.21,Trial 2,7,1,98
+entrance,control,7,2,1,0.21,Trial 2,7,0.6666666667,99
+entrance,control,7,3,0,0.21,Trial 2,7,1,100
+entrance,control,7,3,0,0.21,Trial 2,7,1,101
+hall???s dune,warming,40,0,3,3.96,Trial 2,72,0,102
+hall???s dune,warming,40,0,3,3.96,Trial 2,72,0,103
+hall???s dune,warming,40,0,3,3.96,Trial 2,72,0,104
+hall???s dune,warming,40,2,1,3.96,Trial 2,72,0.6666666667,105
+hall???s dune,control,32,0,3,3.96,Trial 2,72,0,106
+hall???s dune,control,32,1,2,3.96,Trial 2,72,0.3333333333,107
+hall???s dune,control,32,2,1,3.96,Trial 2,72,0.6666666667,108
+dorm marsh,warming,3,3,0,1.18,Trial 2,5,1,109
+dorm marsh,warming,3,2,1,1.18,Trial 2,5,0.6666666667,110
+dorm marsh,warming,3,0,3,1.18,Trial 2,5,0,111
+dorm marsh,warming,3,0,3,1.18,Trial 2,5,0,112
+dorm marsh,control,2,2,1,1.18,Trial 2,5,0.6666666667,113
+dorm marsh,control,2,0,3,1.18,Trial 2,5,0,114
+dorm marsh,control,2,3,0,1.18,Trial 2,5,1,115
+dorm marsh,control,2,3,0,1.18,Trial 2,5,1,116
+mussel pt,warming,10,2,1,-1.74,Trial 2,12,0.6666666667,117
+mussel pt,warming,10,2,1,-1.74,Trial 2,12,0.6666666667,118
+mussel pt,warming,10,0,3,-1.74,Trial 2,12,0,119
+mussel pt,warming,10,0,3,-1.74,Trial 2,12,0,120
+mussel pt,control,2,2,1,-1.74,Trial 2,12,0.6666666667,121
+mussel pt,control,2,3,0,-1.74,Trial 2,12,1,122
+mussel pt,control,2,1,2,-1.74,Trial 2,12,0.3333333333,123
+mussel pt,control,2,1,2,-1.74,Trial 2,12,0.3333333333,124
+artemisia,warming,0,2,1,6.766,Trial 2,5,0.6666666667,125
+artemisia,warming,0,2,1,6.766,Trial 2,5,0.6666666667,126
+artemisia,warming,0,3,0,6.766,Trial 2,5,1,127
+artemisia,warming,0,3,0,6.766,Trial 2,5,1,128
+artemisia,control,5,3,0,6.766,Trial 2,5,1,129
+artemisia,control,5,3,0,6.766,Trial 2,5,1,130
+artemisia,control,5,3,0,6.766,Trial 2,5,1,131
+artemisia,control,5,3,0,6.766,Trial 2,5,1,132
+john???s north dune,warming,0,2,1,0.122,Trial 2,6,0.6666666667,133
+john???s north dune,warming,0,2,1,0.122,Trial 2,6,0.6666666667,134
+john???s north dune,warming,0,2,1,0.122,Trial 2,6,0.6666666667,135
+john???s north dune,warming,0,3,0,0.122,Trial 2,6,1,136
+john???s north dune,control,6,3,0,0.122,Trial 2,6,1,137
+john???s north dune,control,6,3,0,0.122,Trial 2,6,1,138
+john???s north dune,control,6,3,0,0.122,Trial 2,6,1,139
+john???s north dune,control,6,3,0,0.122,Trial 2,6,1,140
+across from lab,warming,0,3,0,0.1,Trial 2,0,1,141
+across from lab,warming,0,2,1,0.1,Trial 2,0,0.6666666667,142
+across from lab,warming,0,2,1,0.1,Trial 2,0,0.6666666667,143
+across from lab,warming,0,3,0,0.1,Trial 2,0,1,144
+across from lab,control,0,2,1,0.1,Trial 2,0,0.6666666667,145
+across from lab,control,0,3,0,0.1,Trial 2,0,1,146
+across from lab,control,0,3,0,0.1,Trial 2,0,1,147
+across from lab,control,0,1,2,0.1,Trial 2,0,0.3333333333,148
+hemlock,warming,0,3,0,2.74,Trial 2,1,1,149
+hemlock,warming,0,1,2,2.74,Trial 2,1,0.3333333333,150
+hemlock,warming,0,2,1,2.74,Trial 2,1,0.6666666667,151
+hemlock,control,1,2,1,2.74,Trial 2,1,0.6666666667,152
+hemlock,control,1,3,0,2.74,Trial 2,1,1,153

@@ -28,12 +28,12 @@ parms <- c(a,c,m,b,g,n,o,K )
 parms
 
 #Empirical parameters  --- on a t= 1 day scale
-a =.013333 ## From field experiment, predation rate per ant per day
+a =.018 ## From field experiment, predation rate per ant per day
 c =.1 # Use base value, from generalised trophic conversion
-m =0.0027 # Predator lives for one year, 1/365
-b = 2.666 #From normal clutch size/adult life span (80/30)
+m =0.005 # Predator lives 200 days, 1/200
+b = 4.16 #From normal clutch size/adult life span (80/30)
 g =0.02  ## 50 days til invulnerable size at Topt 
-n =0.033 ### From life span of adults, 1/30
+n =0.008 ### From life span of adults, 1/30
 o =0.003 ## From lab rearing -- death rate per day at Topt
 K=1000 ##much more realistic K
 parms2 <- c(a,c,m,b,g,n,o,K )
@@ -143,15 +143,15 @@ tempresponse2<-function(ts, ##sequence of temperatures
 tempresponse3<-function(ts, ##sequence of temperatures
                         ToptJg=23.42,  ##topt for juvenile
                         ToptJo=17.66,  ##topt for juveniles
-                        ToptA=23.42,  ##topt for juveniles
+                        ToptA=23.42,  ##topt for adults
                         ToptP=23.83,  ##topt for predators
                         TsdP=9.14,  ##thermal niche breadth
                         Tsdg=6.7, 
                         Tsdo=7.9,
                         TsdA=7.9,
-                        RmP=0.0133, ##max predation rate
-                        Rmn=0.005, ##min adult death rate
-                        Rmm=0.0027, ##min predator death rate
+                        RmP=0.018, ##max predation rate
+                        Rmn=0.008, ##min adult death rate
+                        Rmm=0.005, ##min predator death rate
                         Rmo=0.003, ##min  juvenile death rate
                         RmJ=0.02, ##max growth rate
                         parms=parms2,
@@ -188,44 +188,44 @@ tempresponse3<-function(ts, ##sequence of temperatures
 
 ts<-seq(15,35,0.1)
 ##Change pred and prey topt here
-same<-tempresponse2(ts,ToptJ=25,ToptP=25,TsdA=5,TsdP=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms,ODE=predprey_equations_DD_JD)
+same<-tempresponse2(ts,ToptJ=25,ToptP=25,TsdA=5,TsdP=5,RmP=.01,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms,ODE=predprey_equations_DD_JD)
 
 same
 
 str(same)
 
-preym1<-tempresponse2(ts,ToptJ=25,ToptP=23,TsdA=5,TsdP=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+preym1<-tempresponse2(ts,ToptJ=25,ToptP=23,TsdA=5,TsdP=5,RmP=.01,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
 preym1
-preyp1<-tempresponse2(ts,ToptJ=25,ToptP=27,TsdA=5,TsdP=5,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+preyp1<-tempresponse2(ts,ToptJ=25,ToptP=27,TsdA=5,TsdP=5,RmP=.01,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
 ###Base model plot
 preym12<-melt(preym1,id.vars=c("Temperature","stability"))
 str(preym12)
-preym1plot<-ggplot(preym12,aes(x=Temperature,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density ')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+xlim(18,32)+geom_vline(xintercept=25,lty=2)+geom_vline(xintercept=23,lty=2)+
-  annotate('text',x=24,y=100,label=expression(paste(T[opt],' ',Predators)),size=2.5)+
-  annotate('text',x=25.75,y=100,label=expression(paste(T[opt],' ',Prey)),size=2.5)+scale_linetype(guide=F)
+preym1plot<-ggplot(preym12,aes(x=Temperature,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density ')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+xlim(18,32)+ylim(-.1,50)+geom_vline(xintercept=25,lty=2)+geom_vline(xintercept=23,lty=2)+
+  annotate('text',x=24,y=45,label=expression(paste(T[opt],' ',Predators)),size=2.5)+
+  annotate('text',x=25.75,y=45,label=expression(paste(T[opt],' ',Prey)),size=2.5)+scale_linetype(guide=F)+theme(legend.position = 'none')
 preym1plot
 
 
 preyp12<-melt(preyp1,id.vars=c("Temperature",'stability'))
 str(preyp12)
-preyp1plot<-ggplot(preyp12,aes(x=Temperature,y=value,color=variable,lty='stability'))+geom_line()+theme_classic()+ylab('Density ')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+xlim(18,32)+xlim(18,32)+geom_vline(xintercept=25,lty=2)+geom_vline(xintercept=27,lty=2)+
-  annotate('text',x=28,y=100,label=expression(paste(T[opt],' ',Predators)),size=2.5)+
-  annotate('text',x=25.75,y=100,label=expression(paste(T[opt],' ',Prey)),size=2.5)+scale_linetype(guide=F)
+preyp1plot<-ggplot(preyp12,aes(x=Temperature,y=value,color=variable,lty='stability'))+geom_line()+theme_classic()+ylab('Density ')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+xlim(18,32)+ylim(-.1,50)+geom_vline(xintercept=25,lty=2)+geom_vline(xintercept=27,lty=2)+
+  annotate('text',x=28,y=45,label=expression(paste(T[opt],' ',Predators)),size=2.5)+
+  annotate('text',x=25.75,y=45,label=expression(paste(T[opt],' ',Prey)),size=2.5)+scale_linetype(guide=F)+theme(legend.position = 'none')
 preyp1plot
 
 
 same2<-melt(same,id.vars=c("Temperature","stability"))
 str(same2)
 sameplot<-ggplot(same2,aes(x=Temperature,y=value,color=variable))+geom_line()+theme_classic()+ylab('Density ')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_vline(xintercept=25,lty=2)+
-  annotate('text',x=26.5,y=100,label=expression(paste(T[opt],' ',Predators,' & ' ,Prey)),size=2.5)+scale_linetype(guide=F)+ylim(-.1,140)+xlim(18,32)
+  annotate('text',x=26.5,y=45,label=expression(paste(T[opt],' ',Predators,' & ' ,Prey)),size=2.5)+scale_linetype(guide=F)+ylim(-.1,50)+xlim(18,32)+theme(legend.position = 'top')
 
 sameplot
 
-plot_grid(sameplot,preym1plot,preyp1plot,nrow=3,labels=c('A','B','C'))
+plot_grid(sameplot,preym1plot,preyp1plot,nrow=3,labels=c('A','B','C'),rel_heights = c(1.25,1,1))
 
 ##Parameterized versions
 
-ts<-seq(10,30,0.1)
+ts<-seq(13, 23,0.1)
 avirginalis<-tempresponse3(ts=ts)
 str(avirginalis)
 
@@ -235,8 +235,9 @@ avirginalis2$stability<-as.factor(avirginalis2$stability)
 
 arrow<-data.frame(x =20,y = 200,xend =22,yend =200,variable="As")
 str(arrow)
-ggplot(avirginalis2,aes(x=Temperature,y=value,color=variable))+geom_line()+theme_classic()+ylab('Density ')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_vline(xintercept = 20,lty=2)+geom_vline(xintercept = 22,lty=3)+geom_segment(data=arrow,aes(x=arrow$x,y = arrow$y,xend=arrow$xend,yend=arrow$yend),arrow=arrow(),color="Black")+xlim(13,25)
+ggplot(avirginalis2,aes(x=Temperature,y=value,color=variable))+geom_line()+theme_classic()+ylab('Density ')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_vline(xintercept = 20,lty=3)+geom_vline(xintercept = 22,lty=4)+geom_segment(data=arrow,aes(x=arrow$x,y = arrow$y,xend=arrow$xend,yend=arrow$yend),arrow=arrow(),color="Black")+xlim(13,25)+geom_vline(xintercept=17.66,lty=2)+geom_vline(xintercept=23.8,lty=2)
 
+ts<-seq(15,35,0.1)
 
 Y0
 Y0[2]<-0
@@ -348,7 +349,8 @@ diff$variable<-factor(diff$variable,levels=c('As','Ps','Js'),labels=c("Adults","
 diff$variable<-relevel(diff$variable,"Juveniles")
 diff$variable<-relevel(diff$variable,"Adults")
 diff$variable
-ggplot(diff,aes(x=Temperature,y=value,color=Asymmetry))+geom_line()+theme_classic()+ylab('Change vs. No Predator Equilibrium')+scale_color_viridis_d()+facet_grid(variable~.)+xlim(20,30)
+library(RColorBrewer)
+ggplot(diff,aes(x=Temperature,y=value,color=Asymmetry))+geom_line()+theme_classic()+ylab('Change vs. No Predator Equilibrium')+ scale_color_brewer(palette = "RdBu",direction = -1)+facet_grid(variable~.)+xlim(20,30)
 
 
 ###Other sensitivity analyses
@@ -389,23 +391,23 @@ ggplot(sK,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_lin
 
 s1<-sensitivity(parameter=1,from=0.01,to=2.5,by=0.01,ODE=predprey_equations_DD_JD,parms1=parms)
 
-aplot<-ggplot(s1,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('a (Attack rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"),guide=F)+geom_hline(yintercept=1,lty=2)+scale_linetype(name="Stability",guide=F)+scale_y_log10()
+aplot<-ggplot(s1,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('a (Attack rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"),guide=F)+geom_hline(yintercept=0,lty=2)+scale_linetype(name="Stability",guide=F)+geom_vline(xintercept = 0.1,lty=3)
 
 aplot
 s2<-sensitivity(parameter=2,from=0.01,to=2.5,by=0.01,ODE=predprey_equations_DD_JD, parms1=parms)
 
-cplot<-ggplot(s2,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('c (Conversion rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"),guide=F)+scale_linetype(name="Stability",guide=F)+geom_hline(yintercept=1,lty=2)+scale_y_log10()
+cplot<-ggplot(s2,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('c (Conversion rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"),guide=F)+scale_linetype(name="Stability",guide=F)+geom_hline(yintercept=0,lty=2)+geom_vline(xintercept = 0.1,lty=3)
 cplot
 s3<-sensitivity(parameter=3,from=0,to=1,by=0.01,ODE=predprey_equations_DD_JD,parms1=parms)
 s3[s3$value<0,]
-mplot<-ggplot(s3,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('m (Predator mortality rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"),guide=F)+scale_linetype(name="Stability",guide=F)+geom_hline(yintercept=0,lty=2) 
+mplot<-ggplot(s3,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('m (Predator mortality rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"),guide=F)+scale_linetype(name="Stability",guide=F)+geom_hline(yintercept=0,lty=2) +geom_vline(xintercept = 0.1,lty=3)
 mplot
 
 
 
 s4<-sensitivity(parameter=4,from=0,to=2.5,by=0.01,ODE=predprey_equations_DD_JD,parms1=parms)
 
-bplot<-ggplot(s4,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('b (Prey birth rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+scale_linetype(name="Stability",guide=F)+geom_hline(yintercept=0,lty=2) +annotate("rect", xmin = -Inf, xmax = 0.49, ymin = -Inf, ymax=Inf,alpha = .2)
+bplot<-ggplot(s4,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('b (Prey birth rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+scale_linetype(name="Stability",guide=F)+geom_hline(yintercept=0,lty=2) +annotate("rect", xmin = -Inf, xmax = 0.49, ymin = -Inf, ymax=Inf,alpha = .2)+geom_vline(xintercept = 2,lty=3)
 
 bplot
 
@@ -413,14 +415,14 @@ s4[s4$value<0,]
 ##g
 s5<-sensitivity(parameter=5,from=0,to=2,by=0.01,ODE=predprey_equations_DD_JD,parms1=parms)
 
-gplot<-ggplot(s5,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('g (Juvenile growth rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+scale_linetype(name="Stability",guide=F)+geom_hline(yintercept=0,lty=2) +annotate("rect", xmin = -Inf, xmax = 0.05, ymin = -Inf, ymax=Inf,alpha = .2)
+gplot<-ggplot(s5,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('g (Juvenile growth rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+scale_linetype(name="Stability",guide=F)+geom_hline(yintercept=0,lty=2) +annotate("rect", xmin = -Inf, xmax = 0.05, ymin = -Inf, ymax=Inf,alpha = .2)+geom_vline(xintercept = 0.4,lty=3)
 gplot
 s5[s5$value<0,]
 
 #n
 s6<-sensitivity(parameter=6,from=0.01,to=1.05,by=0.01,ODE=predprey_equations_DD_JD,parms1=parms)
 
-nplot<-ggplot(s6,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('n (Adult death rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+scale_linetype(name="Stability",guide=F)+geom_hline(yintercept=1,lty=2)+scale_y_log10()
+nplot<-ggplot(s6,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('n (Adult death rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+scale_linetype(name="Stability",guide=F)+geom_hline(yintercept=0,lty=2)+geom_vline(xintercept = 0.1,lty=3)
 nplot
 
 s6[s6$value<0,]
@@ -428,11 +430,11 @@ s6[s6$value<0,]
 #o
 s7<-sensitivity(parameter=7,from=0.01,to=1,by=0.01,ODE=predprey_equations_DD_JD,parms1=parms)
 
-oplot<-ggplot(s7,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('o (Juvenile death rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"),guide=F)+scale_linetype(name="Stability",guide=F) +geom_hline(yintercept=0,lty=2)
+oplot<-ggplot(s7,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('o (Juvenile death rate)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"),guide=F)+scale_linetype(name="Stability",guide=F) +geom_hline(yintercept=0,lty=2)+geom_vline(xintercept = 0.1,lty=3)
 oplot
 #K
 s8<-sensitivity(parameter=8,from=1,to=200,by=1,ODE=predprey_equations_DD_JD,parms1=parms)
-Kplot<-ggplot(s8,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('K (Carrying capacity)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+scale_linetype(name="Stability",guide=F)+geom_hline(yintercept=0,lty=2) +annotate("rect", xmin = -Inf, xmax = 33, ymin = -Inf, ymax=Inf,alpha = .2)
+Kplot<-ggplot(s8,aes(x=paramsensitivity,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density')+xlab('K (Carrying capacity)')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+scale_linetype(name="Stability",guide=F)+geom_hline(yintercept=0,lty=2) +annotate("rect", xmin = -Inf, xmax = 33, ymin = -Inf, ymax=Inf,alpha = .2)+geom_vline(xintercept = 100,lty=3)
 Kplot
 s8[s8$value<1,]
 plot_grid(aplot,gplot,cplot,bplot,mplot,nplot,oplot,Kplot,nrow=4,ncol=2,labels=c("A","B","C",'D',"E","F","G","H"),rel_widths=c(1,1.3))
@@ -527,7 +529,7 @@ sRma<-sensitivity2(ts=ts,
                     ODE=predprey_equations_DD_JD
                     
 )
-plot1<-ggplot(sRma,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(a[max]))+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)
+plot1<-ggplot(sRma,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(a[max]))+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)+theme(legend.position = 'top', axis.title.y = element_text(size = 6))+geom_vline(xintercept = 0.1,lty=3)
 plot1
 
 sc<-sensitivity2(ts=ts,
@@ -539,32 +541,32 @@ sc<-sensitivity2(ts=ts,
                    ODE=predprey_equations_DD_JD
                    
 )
-plot2<-ggplot(sc,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab('c')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)
+plot2<-ggplot(sc,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab('c')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)+theme(legend.position = 'top', axis.title.y = element_text(size = 6))+geom_vline(xintercept = 0.1,lty=3)
 plot2
 
 
 sRmm<-sensitivity2(ts=ts,
                    parameter=3,
-                   from=0.01,
+                   from=0.001,
                    to=1,
                    by=0.01,
                    parms=parms3,
                    ODE=predprey_equations_DD_JD
                    
 )
-plot3<-ggplot(sRmm,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(1-m[min]))+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)
+plot3<-ggplot(sRmm,aes(x=1-paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(m[min]))+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)+theme(legend.position = 'none', axis.title.y = element_text(size = 6))+geom_vline(xintercept = 0.1,lty=3)
 plot3
 
 sb<-sensitivity2(ts=ts,
                  parameter=4,
-                 from=0.5,
-                 to=3,
-                 by=0.1,
+                 from=0.8,
+                 to=5,
+                 by=0.01,
                  parms=parms3,
                  ODE=predprey_equations_DD_JD
                  
 )
-plot4<-ggplot(sb,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab('b')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)
+plot4<-ggplot(sb,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab('b')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)+theme(legend.position = 'none', axis.title.y = element_text(size = 6))+geom_vline(xintercept = 2,lty=3)
 plot4
 sb[sb$value<0.01&sb$value>-0.01,]
 
@@ -578,41 +580,41 @@ sg<-sensitivity2(ts=ts,
                  ODE=predprey_equations_DD_JD
                  
 )
-plot5<-ggplot(sg,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(g[max]))+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)
+plot5<-ggplot(sg,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(g[max]))+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)+theme(legend.position = 'none', axis.title.y = element_text(size = 6))+geom_vline(xintercept = 0.4,lty=3)
 plot5
 
 sRmn<-sensitivity2(ts=ts,
                  parameter=6,
-                 from=0.01,
-                 to=.9,
+                 from=0.001,
+                 to=.95,
                  by=0.01,
                  parms=parms3,
                  ODE=predprey_equations_DD_JD
                  
 )
-plot6<-ggplot(sRmn,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(1-n[min]))+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)
+plot6<-ggplot(sRmn,aes(x=1-paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(n[min]))+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)+theme(legend.position = 'none', axis.title.y = element_text(size = 6))+ylim(min(sRmn$value),200)+geom_vline(xintercept = 0.1,lty=3)
 plot6
 sRmo<-sensitivity2(ts=ts,
                  parameter=7,
-                 from=0.01,
+                 from=0.001,
                  to=1,
                  by=0.01,
                  parms=parms3,
                  ODE=predprey_equations_DD_JD
                  
 )
-plot7<-ggplot(sRmo,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(1-o[min]))+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)
+plot7<-ggplot(sRmo,aes(x=1-paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(o[min]))+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)+theme(legend.position = 'none', axis.title.y = element_text(size = 6))+geom_vline(xintercept = 0.1,lty=3)
 plot7
 sK<-sensitivity2(ts=ts,
                    parameter=8,
                    from=50,
-                   to=200,
+                   to=1500,
                    by=1,
                    parms=parms3,
                    ODE=predprey_equations_DD_JD
                    
 )
-plot8<-ggplot(sK,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab('K')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)
+plot8<-ggplot(sK,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab('K')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)+theme(legend.position = 'none', axis.title.y = element_text(size = 6))+geom_vline(xintercept = 100,lty=3)
 plot8
 sK[sK$value<0.01&sK$value>-0.01,]
 
@@ -625,7 +627,7 @@ stsdA<-sensitivity2(ts=ts,
                     ODE=predprey_equations_DD_JD
                     
 )
-plot9<-ggplot(stsdA,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(T[sd]~Prey))+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)
+plot9<-ggplot(stsdA,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(T[sd]~Prey))+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)+theme(legend.position = 'none', axis.title.y = element_text(size = 6))+geom_vline(xintercept = 5,lty=3)
 plot9
 stsdP<-sensitivity2(ts=ts,
                     parameter=10,
@@ -636,13 +638,17 @@ stsdP<-sensitivity2(ts=ts,
                     ODE=predprey_equations_DD_JD
                     
 )
-plot10<-ggplot(stsdP,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(T[sd]~Predators))+scale_color_viridis_d(labels=c("Adults","Predators","Juveniles"),name=NULL)+geom_hline(yintercept =0,lty=2)
+plot10<-ggplot(stsdP,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(T[sd]~Predators))+scale_color_viridis_d(labels=c("Adults","Predators","Juveniles"),name=NULL)+geom_hline(yintercept =0,lty=2)+theme(legend.position = 'none', axis.title.y = element_text(size = 6))+geom_vline(xintercept = 5,lty=3)
 plot10
 
 
-plot_grid(plot1,plot2,plot3,plot4,plot5,plot6,plot7,plot8,plot9,plot10,nrow=5,ncol=2,labels=c("A","B",'C','D','E','F','G','H','I',"J"))
+plot_grid(plot1,plot2,plot3,plot4,plot5,plot6,plot7,plot8,plot9,plot10,nrow=5,ncol=2,labels=c("A","B",'C','D','E','F','G','H','I',"J"),rel_heights = c(1.25,1,1,1,1),label_size = 10)
 
-preyp1<-tempresponse2(ts,ToptJ=25,ToptP=27,TsdA=5,TsdP=15,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
+
+
+
+
+plpreyp1<-tempresponse2(ts,ToptJ=25,ToptP=27,TsdA=5,TsdP=15,RmP=.1,RmJ=.4,Rmo=.3,Rmn=.3,Rmm=.1, parms=parms, ODE=predprey_equations_DD_JD)
 
 preyp12<-melt(preyp1,id.vars=c("Temperature",'stability'))
 str(preyp12)
