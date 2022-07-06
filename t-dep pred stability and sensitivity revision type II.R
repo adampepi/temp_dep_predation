@@ -75,15 +75,15 @@ stability<-function(Pbar=Pbar,
 )
 {
   a=parms[1]; c=parms[2] ; m= parms[3]; b=parms[4]; g=parms[5]; n=parms[6];o=parms[7]; K=parms[8]
-  dFdP=c*a*Jbar-m
+  dFdP=c*a*Jbar/(1+a*h*Jbar)-m
   dFdA=0
-  dFdJ=c*a*Pbar
+  dFdJ=c*a*Pbar/((1+a*h*Jbar)^2)
   dGdP=0
   dGdA=-n
   dGdJ=g
-  dHdP=-a*Jbar
+  dHdP=-a*Jbar/(1+a*h*Jbar)
   dHdA=b*(1-Jbar/K-2*Abar/K)
-  dHdJ=-b*Abar/K-g-a*Pbar-o
+  dHdJ=-b*Abar/K-g-a*Pbar/((1+a*h*Jbar)^2)-o
   
   m1<-matrix(data=c(dFdP,dFdA,dFdJ,dGdP,dGdA,dGdJ,dHdP,dHdA,dHdJ),nrow=3,ncol=3)
   LE<-eigen(m1)$values[1]
@@ -111,6 +111,7 @@ tempresponse2<-function(ts, ##sequence of temperatures
                         Rmm=.1, ##min predator death rate
                         Rmo=.3, ##min juvenile rate
                         RmJ=.4, ##max growth rate
+                        h=0.9,
                         parms=parms,
                         ODE=predprey_equations ##choose which model version to run
 )
@@ -159,6 +160,7 @@ tempresponse3<-function(ts, ##sequence of temperatures
                         Rmm=0.005, ##min predator death rate
                         Rmo=0.003, ##min  juvenile death rate
                         RmJ=0.02, ##max growth rate
+                        h=0.1,
                         parms=parms2,
                         ODE=predprey_equations_DD_JD ##choose which model version to run
 )
@@ -457,6 +459,7 @@ plot_grid(aplot,gplot,cplot,bplot,mplot,nplot,oplot,Kplot,nrow=4,ncol=2,labels=c
 
 ###Sensitivity v2 -- Figure 5
 
+
 Rma=.1 ##max predation rate
 c=0.1
 Rmm=.1 ##min predator death rate
@@ -468,7 +471,8 @@ TsdA=5  ##thermal niche breadth
 TsdP=5  ##thermal niche breadth
 ToptJ=25  ##topt for juveniles
 ToptP=27  ##topt for predators
-parms3<-c(Rma,c,Rmm,b,Rmg,Rmn,Rmo,K, TsdA,TsdP,ToptJ,ToptP)
+h=0.9
+parms3<-c(Rma,c,Rmm,b,Rmg,Rmn,Rmo,K, TsdA,TsdP,ToptJ,ToptP,h)
 parms<-parms3
 parms[10]
 sensitivity2<-function(ts=ts,
@@ -501,7 +505,8 @@ sensitivity2<-function(ts=ts,
     TsdP=parms[10]
     ToptJ=parms[11]
     ToptP=parms[12]
-    parms2<-c(Rma,c,Rmm,b,Rmg,Rmn,Rmo,K)
+    h=parms[13]
+    parms2<-c(Rma,c,Rmm,b,Rmg,Rmn,Rmo,h,K)
   out1<-tempresponse2(ts=ts, ##sequence of temperatures
                   ToptJ=ToptJ,  ##topt for juveniles
                   ToptP=ToptP,  ##topt for predators
@@ -512,6 +517,7 @@ sensitivity2<-function(ts=ts,
                   Rmm=Rmm, ##max (?) predator death rate
                   Rmo=Rmo, ##max (?) juvenile rate
                   RmJ=Rmg, ##max growth rate
+                  h=h,
                   parms=parms2,
                   ODE=predprey_equations_DD_JD)
     deltaA<-out1$As[out1$Temperature=='25']-out1$As[out1$Temperature=='23']
