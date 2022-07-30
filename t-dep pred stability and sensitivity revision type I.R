@@ -455,8 +455,8 @@ ts=seq(23,25,0.1)
 ts
 sRma<-sensitivity2(ts=ts,
                     parameter=1,
-                    from=0.1,
-                    to=0.1,
+                    from=0.01,
+                    to=0.9,
                     by=0.01,
                     parms=parms3,
                     ODE=predprey_equations_DD_JD
@@ -507,7 +507,7 @@ sb[sb$value<0.01&sb$value>-0.01,]
 sg<-sensitivity2(ts=ts,
                  parameter=5,
                  from=0.1,
-                 to=5,
+                 to=1,
                  by=0.01,
                  parms=parms3,
                  ODE=predprey_equations_DD_JD
@@ -525,7 +525,7 @@ sRmn<-sensitivity2(ts=ts,
                  ODE=predprey_equations_DD_JD
                  
 )
-plot6<-ggplot(sRmn,aes(x=1-paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(n[min]))+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)+theme(legend.position = 'none', axis.title.y = element_text(size = 6))+geom_vline(xintercept = 0.1,lty=3)
+plot6<-ggplot(sRmn,aes(x=1-paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(n[min]))+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)+theme(legend.position = 'none', axis.title.y = element_text(size = 6))+geom_vline(xintercept = 0.3,lty=3)
 plot6
 sRmo<-sensitivity2(ts=ts,
                  parameter=7,
@@ -536,7 +536,7 @@ sRmo<-sensitivity2(ts=ts,
                  ODE=predprey_equations_DD_JD
                  
 )
-plot7<-ggplot(sRmo,aes(x=1-paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(o[min]))+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)+theme(legend.position = 'none', axis.title.y = element_text(size = 6))+geom_vline(xintercept = 0.1,lty=3)
+plot7<-ggplot(sRmo,aes(x=1-paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(o[min]))+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_hline(yintercept =0,lty=2)+theme(legend.position = 'none', axis.title.y = element_text(size = 6))+geom_vline(xintercept = 0.3,lty=3)
 plot7
 sK<-sensitivity2(ts=ts,
                    parameter=8,
