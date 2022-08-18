@@ -24,7 +24,7 @@ g =.4
 n =.3 
 o =.3 
 h=0.1
-K=1000
+K=100
 parms <- c(a,c,m,b,g,n,o,h,K )
 parms
 
@@ -213,7 +213,7 @@ ggplot(preym12,aes(x=Temperature,y=value,color=variable,lty=stability))+geom_lin
 
 preym1plot<-ggplot(preym12,aes(x=Temperature,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density ')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+xlim(10,35)+geom_vline(xintercept=25,lty=2)+geom_vline(xintercept=23,lty=2)+
   annotate('text',x=24,y=149,label=expression(paste(T[opt],' ',Predators)),size=2.5)+
-  annotate('text',x=25.75,y=149,label=expression(paste(T[opt],' ',Prey)),size=2.5)+scale_linetype(guide=F)+theme(legend.position = 'none')
+  annotate('text',x=25.75,y=49,label=expression(paste(T[opt],' ',Prey)),size=2.5)+scale_linetype(guide=F)+theme(legend.position = 'none')
 preym1plot
 
 
@@ -222,14 +222,14 @@ str(preyp12)
 max(preyp12$value[preyp12$variable=='Ps'])
 preyp1plot<-ggplot(preyp12,aes(x=Temperature,y=value,color=variable,lty='stability'))+geom_line()+theme_classic()+ylab('Density ')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+xlim(10,35)+geom_vline(xintercept=25,lty=2)+geom_vline(xintercept=27,lty=2)+
   annotate('text',x=28,y=149,label=expression(paste(T[opt],' ',Predators)),size=2.5)+
-  annotate('text',x=25.75,y=149,label=expression(paste(T[opt],' ',Prey)),size=2.5)+scale_linetype(guide=F)+theme(legend.position = 'none')
+  annotate('text',x=25.75,y=49,label=expression(paste(T[opt],' ',Prey)),size=2.5)+scale_linetype(guide=F)+theme(legend.position = 'none')
 preyp1plot
 
 
 same2<-melt(same,id.vars=c("Temperature","stability"))
 str(same2)
 sameplot<-ggplot(same2,aes(x=Temperature,y=value,color=variable))+geom_line()+theme_classic()+ylab('Density ')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+geom_vline(xintercept=25,lty=2)+
-  annotate('text',x=26.5,y=90,label=expression(paste(T[opt],' ',Predators,' & ' ,Prey)),size=2.5)+scale_linetype(guide=F)+xlim(10,35)+theme(legend.position = 'top')
+  annotate('text',x=26.5,y=50,label=expression(paste(T[opt],' ',Predators,' & ' ,Prey)),size=2.5)+scale_linetype(guide=F)+xlim(10,35)+theme(legend.position = 'top')
 
 sameplot
 
