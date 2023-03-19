@@ -579,8 +579,20 @@ stsdP<-sensitivity2(ts=ts,
 plot10<-ggplot(stsdP,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab(expression(T[sd]~Predators))+scale_color_viridis_d(labels=c("Adults","Predators","Juveniles"),name=NULL)+geom_hline(yintercept =0,lty=2)+theme(legend.position = 'none', axis.title.y = element_text(size = 6))+geom_vline(xintercept = 5,lty=3)
 plot10
 
+sh<-sensitivity2(ts=ts,
+                    parameter=8,
+                    from=0.01,
+                    to=1,
+                    by=0.01,
+                    parms=parms3,
+                    ODE=predprey_equations_DD_JD
+                    
+)
+plot11<-ggplot(sh,aes(x=paramvalue,y=value,color=variable))+geom_line()+theme_classic()+ylab('Change 23-25°C')+xlab('h')+scale_color_viridis_d(labels=c("Adults","Predators","Juveniles"),name=NULL)+geom_hline(yintercept =0,lty=2)+theme(legend.position = 'none', axis.title.y = element_text(size = 6))+geom_vline(xintercept = 0.1,lty=3)
+plot11
+
 ####Figure 5
-plot_grid(plot1,plot2,plot3,plot4,plot5,plot6,plot7,plot8,plot9,plot10,nrow=5,ncol=2,labels=c("A","B",'C','D','E','F','G','H','I',"J"),rel_heights = c(1.25,1,1,1,1),label_size = 10)
+plot_grid(plot1,plot2,plot3,plot4,plot5,plot6,plot7,plot8,plot9,plot10,plot11, nrow=6,ncol=2,labels=c("A","B",'C','D','E','F','G','H','I',"J","K"),rel_heights = c(1.25,1,1,1,1),label_size = 10)
 
 
 

@@ -212,7 +212,7 @@ str(preym12)
 ggplot(preym12,aes(x=Temperature,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density ')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+xlim(18,32)+geom_vline(xintercept=25,lty=2)+geom_vline(xintercept=23,lty=2)
 
 preym1plot<-ggplot(preym12,aes(x=Temperature,y=value,color=variable,lty=stability))+geom_line()+theme_classic()+ylab('Density ')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+xlim(10,35)+geom_vline(xintercept=25,lty=2)+geom_vline(xintercept=23,lty=2)+
-  annotate('text',x=24,y=149,label=expression(paste(T[opt],' ',Predators)),size=2.5)+
+  annotate('text',x=24,y=49,label=expression(paste(T[opt],' ',Predators)),size=2.5)+
   annotate('text',x=25.75,y=49,label=expression(paste(T[opt],' ',Prey)),size=2.5)+scale_linetype(guide=F)+theme(legend.position = 'none')
 preym1plot
 
@@ -221,7 +221,7 @@ preyp12<-melt(preyp1,id.vars=c("Temperature",'stability'))
 str(preyp12)
 max(preyp12$value[preyp12$variable=='Ps'])
 preyp1plot<-ggplot(preyp12,aes(x=Temperature,y=value,color=variable,lty='stability'))+geom_line()+theme_classic()+ylab('Density ')+scale_color_viridis_d(name=NULL,labels=c("Adults","Predators","Juveniles"))+xlim(10,35)+geom_vline(xintercept=25,lty=2)+geom_vline(xintercept=27,lty=2)+
-  annotate('text',x=28,y=149,label=expression(paste(T[opt],' ',Predators)),size=2.5)+
+  annotate('text',x=28,y=49,label=expression(paste(T[opt],' ',Predators)),size=2.5)+
   annotate('text',x=25.75,y=49,label=expression(paste(T[opt],' ',Prey)),size=2.5)+scale_linetype(guide=F)+theme(legend.position = 'none')
 preyp1plot
 
